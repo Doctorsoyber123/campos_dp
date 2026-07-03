@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/reginde', [InfraestructuraController::class, 'store'])->name('reginde.store');
     Route::get('/reginde/{id}/ver', [InfraestructuraController::class, 'show'])->name('reginde.show');
     Route::get('/reginde/{id}/editar', [InfraestructuraController::class, 'edit'])->name('reginde.edit');
+    Route::get('/reginde/{id}/pdf', [InfraestructuraController::class, 'pdf'])->name('reginde.pdf');
     Route::put('/reginde/{id}', [InfraestructuraController::class, 'update'])->name('reginde.update');
     Route::delete('/reginde/{id}', [InfraestructuraController::class, 'destroy'])->name('reginde.destroy');
 });

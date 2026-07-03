@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Services\InfraestructuraService;
+use App\Support\FichaCampos;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class InfraestructuraController extends Controller
 {
@@ -39,6 +43,7 @@ class InfraestructuraController extends Controller
     {
         return view('reginde.create', [
             'mode' => 'ver',
+            'id' => $id,
             'data' => $this->service->datosParaFormulario($id),
         ]);
     }
@@ -66,6 +71,21 @@ class InfraestructuraController extends Controller
         $this->service->eliminar($id);
 
         return redirect()->route('reginde.panel')->with('status', 'Registro eliminado.');
+    }
+
+    public function pdf(int $id): Response
+    {
+        $data = $this->service->datosParaFormulario($id);
+
+        $pdf = Pdf::loadView('reginde.pdf', [
+            'data' => $data,
+            'secciones' => FichaCampos::secciones(),
+            'fecha' => now()->format('d/m/Y H:i'),
+        ])->setPaper('a4');
+
+        $nombreArchivo = Str::slug($data['denominacion'] ?? 'infraestructura').'.pdf';
+
+        return $pdf->download($nombreArchivo);
     }
 
     private function validado(Request $request): array

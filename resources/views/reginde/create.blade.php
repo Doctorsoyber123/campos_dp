@@ -3,6 +3,7 @@
 @php
   $mode = $mode ?? 'new';
   $data = $data ?? [];
+  $id = $id ?? null;
   $tituloModo = ['new' => 'Nuevo registro', 'ver' => 'Ver registro', 'editar' => 'Editar registro'][$mode];
 @endphp
 
@@ -267,7 +268,7 @@
 
         <div class="subhead">Vestuarios</div>
         <div class="field"><label class="toggle-field"><input type="hidden" name="vest_damas" value="No"><input type="checkbox" name="vest_damas" value="Sí" class="toggle-input" @checked(($data['vest_damas'] ?? 'No') === 'Sí') @disabled($mode === 'ver')><span class="toggle-switch"></span><span class="toggle-text">Vestuarios damas</span></label></div>
-        <div class="field"><label class="toggle-field"><input type="hidden" name="vest_caballeros" value="No"><input type="checkbox" name="vest_caballeros" value="Sí" class="toggle-input" @checked(($data['vest_caballeros'] ?? 'No') === 'Sí') @disabled($mode === 'ver')><span class="toggle-switch"></span><span class="toggle-text">Vestuarios caballeros</span></label></div>
+        <div class="field"><label class="toggle-field"><input type="hidden" name="vest_caballeros" value="No"><input type="checkbox" name="vest_caballeros" value="Sí" class="toggle-input" @checked(($data['vest_caballeros'] ?? 'No') === 'Sí') @disabled($mode === 'ver')><span class="toggle-switch"></span><span class="toggle-text">Vestuarios varones</span></label></div>
         <div class="field"><label class="toggle-field"><input type="hidden" name="vest_banos" value="No"><input type="checkbox" name="vest_banos" value="Sí" class="toggle-input" @checked(($data['vest_banos'] ?? 'No') === 'Sí') @disabled($mode === 'ver')><span class="toggle-switch"></span><span class="toggle-text">Vestuarios con baños</span></label></div>
         <div class="field"><label class="toggle-field"><input type="hidden" name="vest_duchas" value="No"><input type="checkbox" name="vest_duchas" value="Sí" class="toggle-input" @checked(($data['vest_duchas'] ?? 'No') === 'Sí') @disabled($mode === 'ver')><span class="toggle-switch"></span><span class="toggle-text">Vestuarios con duchas</span></label></div>
 
@@ -365,6 +366,12 @@
 
     <div class="actions">
       <a href="{{ route('reginde.panel') }}" class="btn-ghost btn-link">Cancelar</a>
+      @if($id)
+        <a href="{{ route('reginde.pdf', $id) }}" class="btn-ghost btn-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="margin-right:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+          Descargar PDF
+        </a>
+      @endif
       @if($mode !== 'ver')
         <button type="submit" class="btn-primary">{{ $mode === 'editar' ? 'Guardar cambios' : 'Guardar registro' }}</button>
       @endif
